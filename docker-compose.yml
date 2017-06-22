@@ -1,0 +1,49 @@
+version: '2'
+services:
+  mariadb:
+    hostname: mariadb
+    restart: always
+    image: mariadb:10.0.27
+    ports:
+      - 8006:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=magento
+      - MYSQL_DATABASE=magento
+      - MYSQL_USER=magento
+      - MYSQL_PASSWORD=magento
+    volumes_from:
+      - appdata:rw
+
+  apache:
+    hostname: apache
+    restart: always
+    image: centos
+    build: build/apache
+    ports:
+      - 666:80
+    volumes_from:
+      - appdata:rw
+
+  redis:
+    hostname: redis
+    restart: always
+    image: redis
+    expose:
+      - 6480
+    ports:
+      - 6480:6379
+
+  appdata:
+    image: alpine:latest
+    build: build/appdata
+    volumes:
+      - ./www:/var/www/html/magento.dev:rw
+      - ./build/mariadb/sql:/tmp/sql
+      - ./build/php/php.ini:/usr/local/etc/php/php.ini:rw
+      - ./build/apache/conf.d/magento.conf:/etc/httpd/conf.d/magent.conf:rw
+      - ./build/php/cgi-bin/php.fastcgi:/var/www/cgi-bin/php.fastcgi
+      #- ./build/nginx/nginx.com:/etc/nginx/nginx.conf
+      #- ./build/appdata/startup.sh:/startup.sh:rw
+      #- ./build/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+    tty: true
+    command: /bin/sh /startup.sh
