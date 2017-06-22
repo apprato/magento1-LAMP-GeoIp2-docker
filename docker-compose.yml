@@ -42,8 +42,5 @@ services:
       - ./build/php/php.ini:/usr/local/etc/php/php.ini:rw
       - ./build/apache/conf.d/magento.conf:/etc/httpd/conf.d/magent.conf:rw
       - ./build/php/cgi-bin/php.fastcgi:/var/www/cgi-bin/php.fastcgi
-      #- ./build/nginx/nginx.com:/etc/nginx/nginx.conf
-      #- ./build/appdata/startup.sh:/startup.sh:rw
-      #- ./build/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
     tty: true
     command: /bin/sh /startup.sh

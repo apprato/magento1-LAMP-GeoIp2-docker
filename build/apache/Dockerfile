@@ -37,6 +37,10 @@ RUN yum -y install git
 RUN yum -y install gcc gcc-c++
 RUN yum -y groupinstall "Development Tools"
 RUN yum -y install wget
+RUN yum -y install links
+RUN yum install -y zsh
+RUN yum install -y telnet
+
 
 EXPOSE 80
 
@@ -47,7 +51,7 @@ ADD setup-maxmind_geoip2.sh /setup-maxmind_geoip2.sh
 RUN chmod -v +x /setup-maxmind_geoip2.sh
 
 CMD ["/run-httpd.sh"]
-CMD ["/setup-maxmind_geoip2.sh"]
+# CMD ["/setup-maxmind_geoip2.sh"]
 
 
 

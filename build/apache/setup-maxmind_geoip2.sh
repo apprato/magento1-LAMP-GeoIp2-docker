@@ -42,8 +42,11 @@ phpize
 make
 # make test
 make install
+printf "\nextension=maxminddb.so" >> /etc/php.ini
+
 
 # update the dynamic links for libmaxminddb
 ldconfig /usr/local/lib
+
 # service httpd restart  This will need to be run at some time to create the dynamic links
 
